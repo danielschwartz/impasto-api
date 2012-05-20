@@ -1,9 +1,17 @@
 {
-    "name": "application-name"
-  , "version": "0.0.1"
-  , "private": true
-  , "dependencies": {
-      "express": "2.5.8"
-    , "jade": ">= 0.0.1"
+  "name": "impasto-api",
+  "description": "Impasto API/Admin Layer",
+  "author": "Daniel Schwartz <dschwartz88@gmail.com>",
+  "version": "0.0.1",
+  "private": true,
+  "engines": {
+    "node": "0.6.x",
+    "npm":  "1.1.x"
+  },
+  "dependencies": {
+    "express": "2.5.8",
+    "hbs": "0.0.1",
+    "pg": "0.6.18",
+    "sequelize": "1.4.0"
   }
 }
