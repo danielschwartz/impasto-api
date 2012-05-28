@@ -48,7 +48,6 @@ switch(NodeEnv){
 		dbOptions.user 		= authArr[0];
 		dbOptions.pass 		= authArr[1];
 		dbOptions.host 		= dbUrl.host;
-		dbOptions.port 		= 80;
 		dbOptions.dialect 	= 'postgres';
 		break;
 }
