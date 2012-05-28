@@ -5,12 +5,8 @@
 
 // Setup Global Vars
 GLOBAL.__root = __dirname;
-GLOBAL.NodeEnv = process.env.NODE_ENV;
+GLOBAL.NodeEnv = process.env.NODE_ENV || 'development';
 GLOBAL.GlobalConfig = require('konphyg')('./configs')('site');
-GLOBAL.db_seed = false;
-if(process.argv.indexOf('--seed') > -1){
-	GLOBAL.db_seed = true;
-}
 
 // Init Global Logger
 var winston = require('winston');
@@ -81,8 +77,7 @@ GLOBAL.db = new sequelize(dbOptions.name, dbOptions.user, dbOptions.pass, {
 	}
 });
 
-var express = require('express'),
-	seeds = require(__root + "/libraries/seed");
+var express = require('express');
 
 var app = module.exports = express.createServer();
 
@@ -91,19 +86,6 @@ require(__root + "/libraries/ModelAssociations");
 
 // Setup ServiceLoader
 GLOBAL.ServiceLoader = require(__root + '/libraries/ServiceLoader');
-
-
-// Setup DB Sync and Seed Data if --seed flag is given
-if(db_seed){
-	GLOBAL.db.sync({force: true}).on('success', function() {
-		console.log('MySQL schema created');
-		console.log('Creating Seed Data');
-		seeds.initUserPieces();
-	}).on('failure', function() {
-		console.log(arguments);
-		console.log('MySQL schema cannot be created');
-	});
-}
 
 // Configuration
 
