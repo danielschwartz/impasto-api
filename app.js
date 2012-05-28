@@ -71,6 +71,8 @@ GLOBAL.db = new Sequelize(dbOptions.name, dbOptions.user, dbOptions.pass, {
 	}
 });
 
+console.log(db);
+
 var express = require('express');
 
 var app = module.exports = express.createServer();
