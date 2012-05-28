@@ -27,7 +27,7 @@ if(NodeEnv === 'production'){
 }
 
 // Init Global DB
-var sequelize = require('sequelize'),
+var Sequelize = require('sequelize'),
 	dbOptions = {};
 
 switch(NodeEnv){
@@ -52,14 +52,9 @@ switch(NodeEnv){
 		break;
 }
 
-GLOBAL.db = new sequelize(dbOptions.name, dbOptions.user, dbOptions.pass, {
+GLOBAL.db = new Sequelize(dbOptions.name, dbOptions.user, dbOptions.pass, {
 	host: dbOptions.host,
-	port: dbOptions.port,
 	dialect: dbOptions.dialect,
-	pool: {
-		maxConnections: 5,
-		maxIdleTime: 30
-	},
 	define: {
 		instanceMethods: {
 			// toJson method
