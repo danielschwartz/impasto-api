@@ -17,14 +17,14 @@ GLOBAL.db = new sequelize('impasto_core', 'root', 'root', {
   }
 });
 
-var express 	= require('express'),
-	routes 		= require('./routes'),
-	seeds		= require(GLOBAL.__root + "/libraries/seed");
+var express = require('express'),
+	routes 	= require('./routes'),
+	seeds	= require(GLOBAL.__root + "/libraries/seed");
 
 var app = module.exports = express.createServer();
 
 // Setup Associations
-require(GLOBAL.__root + "/libraries/db")
+require(GLOBAL.__root + "/libraries/ModelAssociations")
 
 // Setup DB Sync and Seed Data
 GLOBAL.db.sync({force: true}).on('success', function() {
