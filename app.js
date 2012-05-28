@@ -54,6 +54,7 @@ switch(NodeEnv){
 
 GLOBAL.db = new Sequelize(dbOptions.name, dbOptions.user, dbOptions.pass, {
 	host: dbOptions.host,
+	port: dbOptions.port,
 	dialect: dbOptions.dialect,
 	define: {
 		instanceMethods: {
