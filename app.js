@@ -3,8 +3,10 @@
  * Module dependencies.
  */
 
+// Setup Global Vars
 GLOBAL.__root = __dirname;
 GLOBAL.NodeEnv = process.env.NODE_ENV;
+GLOBAL.GlobalConfig = require('konphyg')('./configs')('site');
 GLOBAL.db_seed = false;
 if(process.argv.indexOf('--seed') > -1){
 	GLOBAL.db_seed = true;
@@ -21,42 +23,66 @@ GLOBAL.Logger = new (winston.Logger)({
 	]
 });
 
+// If were in prod, lets write it to some files, we'll also add Loggly eventually
 if(NodeEnv === 'production'){
 	Logger.add(winston.transports.File, {
 		filename: __root + '/logs/main.log',
 	})
 }
 
-Logger.info('yay!');
-
-
 // Init Global DB
-var sequelize = require('sequelize');
-GLOBAL.db = new sequelize('impasto_core', 'root', 'root', {
-  host: "127.0.0.1",
-  port: 8889,
-  dialect: 'mysql',
-  pool: {
-  	maxConnections: 5,
-  	maxIdleTime: 30
-  },
-  define: {
-  	instanceMethods: {
-  		mapAttributes: function(){
-  			var obj = new Object(),
-	            ctx = this;
-	        ctx.attributes.forEach(function(attr) {
-	            obj[attr] = ctx[attr];
-	        });
+var sequelize = require('sequelize'),
+	dbOptions = {};
 
-	        return obj;
-  		}
-  	}
-  }
+switch(NodeEnv){
+	case 'development':
+		dbOptions.name 		= GlobalConfig.db.name;
+		dbOptions.user 		= GlobalConfig.db.user;
+		dbOptions.pass 		= GlobalConfig.db.pass;
+		dbOptions.host 		= GlobalConfig.db.host;
+		dbOptions.port 		= GlobalConfig.db.port;
+		dbOptions.dialect 	= GlobalConfig.db.dialect;
+		break;
+	case 'production':
+		var url 	= require('url'),
+			dbUrl 	= url.parse(process.env.DATABASE_URL),
+			authArr = dbUrl.auth.split(':');
+
+		dbOptions.name 		= dbUrl.path.substring(1);
+		dbOptions.user 		= authArr[0];
+		dbOptions.pass 		= authArr[1];
+		dbOptions.host 		= dbUrl.host;
+		dbOptions.port 		= 80;
+		dbOptions.dialect 	= 'postgres';
+		break;
+}
+
+GLOBAL.db = new sequelize(dbOptions.name, dbOptions.user, dbOptions.pass, {
+	host: dbOptions.host,
+	port: dbOptions.port,
+	dialect: dbOptions.dialect,
+	pool: {
+		maxConnections: 5,
+		maxIdleTime: 30
+	},
+	define: {
+		instanceMethods: {
+			// toJson method
+			mapAttributes: function(){
+				var obj = new Object(),
+					ctx = this;
+				ctx.attributes.forEach(function(attr) {
+						obj[attr] = ctx[attr];
+				});
+
+				return obj;
+			}
+		}
+	}
 });
 
 var express = require('express'),
-	seeds	= require(__root + "/libraries/seed");
+	seeds = require(__root + "/libraries/seed");
 
 var app = module.exports = express.createServer();
 
@@ -67,7 +93,7 @@ require(__root + "/libraries/ModelAssociations");
 GLOBAL.ServiceLoader = require(__root + '/libraries/ServiceLoader');
 
 
-// Setup DB Sync and Seed Data
+// Setup DB Sync and Seed Data if --seed flag is given
 if(db_seed){
 	GLOBAL.db.sync({force: true}).on('success', function() {
 		console.log('MySQL schema created');
