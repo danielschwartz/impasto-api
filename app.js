@@ -9,6 +9,7 @@ if(process.argv.indexOf('--seed') > -1){
 	GLOBAL.db_seed = true;
 }
 
+
 // Init Global DB
 var sequelize = require('sequelize');
 GLOBAL.db = new sequelize('impasto_core', 'root', 'root', {
@@ -18,11 +19,23 @@ GLOBAL.db = new sequelize('impasto_core', 'root', 'root', {
   pool: {
   	maxConnections: 5,
   	maxIdleTime: 30
+  },
+  define: {
+  	instanceMethods: {
+  		mapAttributes: function(){
+  			var obj = new Object(),
+	            ctx = this;
+	        ctx.attributes.forEach(function(attr) {
+	            obj[attr] = ctx[attr];
+	        });
+
+	        return obj;
+  		}
+  	}
   }
 });
 
 var express = require('express'),
-	routes 	= require('./routes'),
 	seeds	= require(GLOBAL.__root + "/libraries/seed");
 
 var app = module.exports = express.createServer();
@@ -62,8 +75,7 @@ app.configure('production', function(){
 });
 
 // Routes
-
-app.get('/', routes.index);
+require('./routes')(app);
 
 var port = process.env.PORT || 3000;
 app.listen(port, function() {
