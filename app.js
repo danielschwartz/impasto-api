@@ -4,10 +4,30 @@
  */
 
 GLOBAL.__root = __dirname;
+GLOBAL.NodeEnv = process.env.NODE_ENV;
 GLOBAL.db_seed = false;
 if(process.argv.indexOf('--seed') > -1){
 	GLOBAL.db_seed = true;
 }
+
+// Init Global Logger
+var winston = require('winston');
+GLOBAL.Logger = new (winston.Logger)({
+	transports: [
+		new (winston.transports.Console)({
+			colorize: true,
+			timestamp: true
+		})
+	]
+});
+
+if(NodeEnv === 'production'){
+	Logger.add(winston.transports.File, {
+		filename: __root + '/logs/main.log',
+	})
+}
+
+Logger.info('yay!');
 
 
 // Init Global DB
@@ -36,24 +56,28 @@ GLOBAL.db = new sequelize('impasto_core', 'root', 'root', {
 });
 
 var express = require('express'),
-	seeds	= require(GLOBAL.__root + "/libraries/seed");
+	seeds	= require(__root + "/libraries/seed");
 
 var app = module.exports = express.createServer();
 
 // Setup Associations
-require(GLOBAL.__root + "/libraries/ModelAssociations")
+require(__root + "/libraries/ModelAssociations");
+
+// Setup ServiceLoader
+GLOBAL.ServiceLoader = require(__root + '/libraries/ServiceLoader');
+
 
 // Setup DB Sync and Seed Data
-GLOBAL.db.sync({force: db_seed}).on('success', function() {
-	console.log('MySQL schema created');
-	if(db_seed){
+if(db_seed){
+	GLOBAL.db.sync({force: true}).on('success', function() {
+		console.log('MySQL schema created');
 		console.log('Creating Seed Data');
 		seeds.initUserPieces();
-	}
-}).on('failure', function() {
-	console.log(arguments);
-	console.log('MySQL schema cannot be created');
-});
+	}).on('failure', function() {
+		console.log(arguments);
+		console.log('MySQL schema cannot be created');
+	});
+}
 
 // Configuration
 
