@@ -17,6 +17,7 @@ module.exports = function(db, DataTypes){
 		firstName: DataTypes.STRING,
 		lastName: DataTypes.STRING,
 		emailAddress: DataTypes.STRING,
+		password: DataTypes.TEXT,
 		brithDate: DataTypes.DATE,
 		gender: DataTypes.STRING,
 		partition: DataTypes.INTEGER,
@@ -38,13 +39,3 @@ module.exports = function(db, DataTypes){
 		// options
 	})
 }
-
-
-// module.exports = function(sequelize, DataTypes) {
-//   	return sequelize.define('Category', {
-// 	  	Id:				{ type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-// 		Name:			{ type: DataTypes.STRING, allowNull: false }
-// 	}, {
-// 		timestamps: false,
-// 	});
-// }

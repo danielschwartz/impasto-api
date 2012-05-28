@@ -4,6 +4,10 @@
  */
 
 GLOBAL.__root = __dirname;
+GLOBAL.db_seed = false;
+if(process.argv.indexOf('--seed') > -1){
+	GLOBAL.db_seed = true;
+}
 
 // Init Global DB
 var sequelize = require('sequelize');
@@ -27,10 +31,12 @@ var app = module.exports = express.createServer();
 require(GLOBAL.__root + "/libraries/ModelAssociations")
 
 // Setup DB Sync and Seed Data
-GLOBAL.db.sync({force: true}).on('success', function() {
+GLOBAL.db.sync({force: db_seed}).on('success', function() {
 	console.log('MySQL schema created');
-	console.log('Creating Seed Data');
-	seeds.initUserPieces();
+	if(db_seed){
+		console.log('Creating Seed Data');
+		seeds.initUserPieces();
+	}
 }).on('failure', function() {
 	console.log(arguments);
 	console.log('MySQL schema cannot be created');
