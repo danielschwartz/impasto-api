@@ -17,7 +17,7 @@ module.exports = function(app){
         GLOBAL.db.sync({force: true}).on('success', function() {
             console.log('MySQL schema created');
             console.log('Creating Seed Data');
-            seeds.initUserPieces();
+            // seeds.initUserPieces();
             res.json({success: true});
         }).on('failure', function(error) {
             console.log('MySQL schema cannot be created');
