@@ -1,10 +1,10 @@
 module.exports = function(res, data){
-	var response = {
-		success: true,
-		data: {}
-	};
+    var response = {
+        success: true,
+        data: {}
+    };
 
-	response.data = data;
+    response.data = data;
 
-	res.json(response);
+    res.json(response);
 }
