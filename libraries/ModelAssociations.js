@@ -3,54 +3,54 @@ module.exports = (function(){
 	// Create GLOBAL Models object
 	GLOBAL.Models = {};
 
-	// GLOBAL.Models.Address 			= GLOBAL.db.import(GLOBAL.__root + "/models/Address");
-	// GLOBAL.Models.Collection 		= GLOBAL.db.import(GLOBAL.__root + "/models/Collection");
-	// GLOBAL.Models.CreditCard 		= GLOBAL.db.import(GLOBAL.__root + "/models/CreditCard");
-	// GLOBAL.Models.List 				= GLOBAL.db.import(GLOBAL.__root + "/models/List");
-	// GLOBAL.Models.ListItem 			= GLOBAL.db.import(GLOBAL.__root + "/models/ListItem");
-	// GLOBAL.Models.Order 			= GLOBAL.db.import(GLOBAL.__root + "/models/Order");
-	GLOBAL.Models.Piece 			= GLOBAL.db.import(GLOBAL.__root + "/models/Piece");
-	// GLOBAL.Models.Rating 			= GLOBAL.db.import(GLOBAL.__root + "/models/Rating");
-	GLOBAL.Models.User 				= GLOBAL.db.import(GLOBAL.__root + "/models/User");
+	Models.Address 		= GLOBAL.db.import(__root + "/models/Address");
+	Models.Collection 	= GLOBAL.db.import(__root + "/models/Collection");
+	Models.CreditCard 	= GLOBAL.db.import(__root + "/models/CreditCard");
+	Models.List 		= GLOBAL.db.import(__root + "/models/List");
+	Models.ListItem 	= GLOBAL.db.import(__root + "/models/ListItem");
+	Models.Order 		= GLOBAL.db.import(__root + "/models/Order");
+	Models.Piece 		= GLOBAL.db.import(__root + "/models/Piece");
+	Models.Rating 		= GLOBAL.db.import(__root + "/models/Rating");
+	Models.User 		= GLOBAL.db.import(__root + "/models/User");
 
 
-	// // Address Associations
-	// GLOBAL.Models.Address.hasMany(GLOBAL.Models.CreditCard);
-	// GLOBAL.Models.Address.hasOne(GLOBAL.Models.User);
-	// GLOBAL.Models.Address.belongsTo(GLOBAL.Models.User);
+	// Address Associations
+	Models.Address.hasMany(Models.CreditCard);
+	Models.Address.hasOne(Models.User);
+	Models.Address.belongsTo(Models.User);
 
-	// // Collection Associations
-	// GLOBAL.Models.Collection.hasMany(GLOBAL.Models.Piece);
+	// Collection Associations
+	Models.Collection.hasMany(Models.Piece);
 
-	// // Credit Card Associations
-	// GLOBAL.Models.CreditCard.hasOne(GLOBAL.Models.Address);
-	// GLOBAL.Models.CreditCard.hasOne(GLOBAL.Models.User);
-	// GLOBAL.Models.CreditCard.belongsTo(GLOBAL.Models.User);
-	// GLOBAL.Models.CreditCard.hasMany(GLOBAL.Models.Order);
+	// Credit Card Associations
+	Models.CreditCard.hasOne(Models.Address);
+	Models.CreditCard.hasOne(Models.User);
+	Models.CreditCard.belongsTo(Models.User);
+	Models.CreditCard.hasMany(Models.Order);
 
-	// // Order Associations
-	// GLOBAL.Models.Order.hasOne(GLOBAL.Models.CreditCard);
-	// GLOBAL.Models.Order.hasOne(GLOBAL.Models.User);
-	// GLOBAL.Models.Order.belongsTo(GLOBAL.Models.User);
-	// GLOBAL.Models.Order.hasOne(GLOBAL.Models.Piece);
+	// Order Associations
+	Models.Order.hasOne(Models.CreditCard);
+	Models.Order.hasOne(Models.User);
+	Models.Order.belongsTo(Models.User);
+	Models.Order.hasOne(Models.Piece);
 
-	// // Piece Associations
-	// GLOBAL.Models.Piece.hasOne(GLOBAL.Models.User);
-	// GLOBAL.Models.Piece.belongsTo(GLOBAL.Models.User);
-	// GLOBAL.Models.Piece.hasOne(GLOBAL.Models.Order);
-	// GLOBAL.Models.Piece.belongsTo(GLOBAL.Models.Order);
-	// GLOBAL.Models.Piece.hasMany(GLOBAL.Models.Collection);
-	// GLOBAL.Models.Piece.hasMany(GLOBAL.Models.Rating);
+	// Piece Associations
+	Models.Piece.hasOne(Models.User);
+	Models.Piece.belongsTo(Models.User);
+	Models.Piece.hasOne(Models.Order);
+	Models.Piece.belongsTo(Models.Order);
+	Models.Piece.hasMany(Models.Collection);
+	Models.Piece.hasMany(Models.Rating);
 
-	// // Rating Associations
-	// GLOBAL.Models.Rating.hasOne(GLOBAL.Models.User);
-	// GLOBAL.Models.Rating.belongsTo(GLOBAL.Models.User);
-	// GLOBAL.Models.Rating.hasOne(GLOBAL.Models.Piece);
+	// Rating Associations
+	Models.Rating.hasOne(Models.User);
+	Models.Rating.belongsTo(Models.User);
+	Models.Rating.hasOne(Models.Piece);
 
-	// // User Associations
-	// GLOBAL.Models.User.hasMany(GLOBAL.Models.Piece);
-	// GLOBAL.Models.User.hasMany(GLOBAL.Models.Address);
-	// GLOBAL.Models.User.hasMany(GLOBAL.Models.Order);
-	// GLOBAL.Models.User.hasMany(GLOBAL.Models.CreditCard);
-	// GLOBAL.Models.User.hasMany(GLOBAL.Models.Rating);
+	// User Associations
+	Models.User.hasMany(Models.Piece);
+	Models.User.hasMany(Models.Address);
+	Models.User.hasMany(Models.Order);
+	Models.User.hasMany(Models.CreditCard);
+	Models.User.hasMany(Models.Rating);
 })();

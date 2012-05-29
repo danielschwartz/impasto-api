@@ -7,6 +7,8 @@
 GLOBAL.__root = __dirname;
 GLOBAL.NodeEnv = process.env.NODE_ENV || 'development';
 GLOBAL.GlobalConfig = require('konphyg')('./configs')('site');
+GLOBAL.DataResponder = require(__root + '/libraries/DataResponder');
+GLOBAL.ErrorResponder = require(__root + '/libraries/ErrorResponder');
 
 // Init Global Logger
 var winston = require('winston');
@@ -54,7 +56,12 @@ switch(NodeEnv){
 
 GLOBAL.db = new Sequelize(dbOptions.name, dbOptions.user, dbOptions.pass, {
 	host: dbOptions.host,
+	port: dbOptions.port,
 	dialect: dbOptions.dialect,
+	pool: {
+		maxConnections: 5,
+		maxIdleTime: 30
+	},
 	define: {
 		instanceMethods: {
 			// toJson method
@@ -70,9 +77,6 @@ GLOBAL.db = new Sequelize(dbOptions.name, dbOptions.user, dbOptions.pass, {
 		}
 	}
 });
-
-console.log(GLOBAL.db);
-
 
 var express = require('express');
 

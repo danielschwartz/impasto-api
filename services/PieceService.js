@@ -1,9 +1,15 @@
 module.exports.getPieceById = function(req, res, callback){
-	var pieceId = parseInt(req.query.id);
+	var pieceId = req.query.id ? parseInt(req.query.id) : null;
 
-	Models.Piece.find(pieceId).success(function(piece){
-		callback(piece.mapAttributes());
-	}).error(function(error){
-		callback({})
-	});
+	if(!pieceId){
+		ErrorResponder(res, 505, {
+			params: 'id'
+		});
+	} else {
+		Models.Piece.find(pieceId).success(function(piece){
+			callback(piece.mapAttributes());
+		}).error(function(error){
+			callback({})
+		});
+	}
 }
