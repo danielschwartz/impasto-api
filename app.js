@@ -63,7 +63,7 @@ GLOBAL.db = new Sequelize(dbOptions.name, dbOptions.user, dbOptions.pass, {
     pool: {
         maxConnections: 5,
         maxIdleTime: 30
-    },
+    }, 
     define: {
         instanceMethods: {
             // toJson method
