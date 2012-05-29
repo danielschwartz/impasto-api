@@ -52,8 +52,6 @@ switch(NodeEnv){
 		break;
 }
 
-console.log(GLOBAL.db);
-
 GLOBAL.db = new Sequelize(dbOptions.name, dbOptions.user, dbOptions.pass, {
 	host: dbOptions.host,
 	dialect: dbOptions.dialect,
@@ -72,6 +70,9 @@ GLOBAL.db = new Sequelize(dbOptions.name, dbOptions.user, dbOptions.pass, {
 		}
 	}
 });
+
+console.log(GLOBAL.db);
+
 
 var express = require('express');
 
