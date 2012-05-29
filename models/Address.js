@@ -12,7 +12,8 @@ module.exports = function(db, DataTypes){
             type: DataTypes.INTEGER,
             autoIncrement: true,
             unique: true,
-            primaryKey: true
+            primaryKey: true,
+            allowNull: false
         },
         title: DataTypes.STRING,
         fullName: DataTypes.TEXT,

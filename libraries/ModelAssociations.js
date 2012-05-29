@@ -4,14 +4,14 @@ module.exports = (function(){
     GLOBAL.Models = {};
 
     Models.Address      = GLOBAL.db.import(__root + "/models/Address");
-    Models.Collection   = GLOBAL.db.import(__root + "/models/Collection");
-    Models.CreditCard   = GLOBAL.db.import(__root + "/models/CreditCard");
-    Models.List         = GLOBAL.db.import(__root + "/models/List");
-    Models.ListItem     = GLOBAL.db.import(__root + "/models/ListItem");
-    Models.Order        = GLOBAL.db.import(__root + "/models/Order");
-    Models.Piece        = GLOBAL.db.import(__root + "/models/Piece");
-    Models.Rating       = GLOBAL.db.import(__root + "/models/Rating");
-    Models.User         = GLOBAL.db.import(__root + "/models/User");
+    // Models.Collection   = GLOBAL.db.import(__root + "/models/Collection");
+    // Models.CreditCard   = GLOBAL.db.import(__root + "/models/CreditCard");
+    // Models.List         = GLOBAL.db.import(__root + "/models/List");
+    // Models.ListItem     = GLOBAL.db.import(__root + "/models/ListItem");
+    // Models.Order        = GLOBAL.db.import(__root + "/models/Order");
+    // Models.Piece        = GLOBAL.db.import(__root + "/models/Piece");
+    // Models.Rating       = GLOBAL.db.import(__root + "/models/Rating");
+    // Models.User         = GLOBAL.db.import(__root + "/models/User");
 
 
     // // Address Associations
