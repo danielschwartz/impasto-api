@@ -14,7 +14,9 @@ module.exports = function(app){
     app.get('/dbseed', function(req, res){
         var seeds = require(__root + "/libraries/seed");
 
-        GLOBAL.db.sync({force: true}).on('success', function() {
+        GLOBAL.db.drop();
+
+        GLOBAL.db.sync().on('success', function() {
             console.log('MySQL schema created');
             console.log('Creating Seed Data');
             // seeds.initUserPieces();
