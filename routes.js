@@ -21,6 +21,7 @@ module.exports = function(app){
             res.json({success: true});
         }).on('failure', function(error) {
             console.log('MySQL schema cannot be created');
+            Logger.error(error);
             res.json({success: false, error: error});
         });
     });
