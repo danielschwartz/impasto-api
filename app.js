@@ -9,6 +9,7 @@ GLOBAL.NodeEnv = process.env.NODE_ENV || 'development';
 GLOBAL.GlobalConfig = require('konphyg')('./configs')('site');
 GLOBAL.DataResponder = require(__root + '/libraries/DataResponder');
 GLOBAL.ErrorResponder = require(__root + '/libraries/ErrorResponder');
+GLOBAL.Memory = require('memory-cache');
 
 // Init Global Logger
 var winston = require('winston');
