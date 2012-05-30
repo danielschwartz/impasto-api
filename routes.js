@@ -1,5 +1,6 @@
 // Main Routes Files
 var API = require(__root + '/controllers/API');
+var AdminPieceController = require(__root + '/controllers/AdminPieceController');
 
 
 module.exports = function(app){
@@ -27,4 +28,6 @@ module.exports = function(app){
             res.json({success: false, error: error});
         });
     });
+
+    app.get('/admin/pieces/:id', AdminPieceController);
 }

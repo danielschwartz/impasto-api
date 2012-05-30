@@ -1,0 +1,17 @@
+<h1>Title</h1>
+<p>Welcome to <%= title %></p>
+
+
+<h2>We can print out global variables also</h2>
+<%= GlobalConfig.db.name %><br/>
+<%= GlobalConfig.db.user %><br/>
+<%= GlobalConfig.db.pass %><br/>
+<%= GlobalConfig.db.host %><br/>
+
+
+<h2>This is how you iterate over something</h2>
+<ul>
+    <% for(var i = 0; i < 100; i++) { %>
+        <li><%= i %></li>
+    <% } %>
+</ul>
