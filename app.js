@@ -22,37 +22,32 @@ GLOBAL.Logger = new (winston.Logger)({
     ]
 });
 
-// If were in prod, lets write it to some files, we'll also add Loggly eventually
-if(NodeEnv === 'production'){
-    Logger.add(winston.transports.File, {
-        filename: __root + '/logs/main.log',
-    })
-}
-
 // Init Global DB
 var Sequelize = require('sequelize'),
     dbOptions = {};
 
 switch(NodeEnv){
     case 'development':
-        dbOptions.name      = GlobalConfig.db.name;
-        dbOptions.user      = GlobalConfig.db.user;
-        dbOptions.pass      = GlobalConfig.db.pass;
-        dbOptions.host      = GlobalConfig.db.host;
-        dbOptions.port      = GlobalConfig.db.port;
-        dbOptions.dialect   = GlobalConfig.db.dialect;
+        dbOptions.name          = GlobalConfig.db.name;
+        dbOptions.user          = GlobalConfig.db.user;
+        dbOptions.pass          = GlobalConfig.db.pass;
+        dbOptions.host          = GlobalConfig.db.host;
+        dbOptions.port          = GlobalConfig.db.port;
+        dbOptions.dialect       = GlobalConfig.db.dialect;
+        dbOptions.disablePort   = false;
         break;
     case 'production':
         var url     = require('url'),
             dbUrl   = url.parse(process.env.DATABASE_URL),
             authArr = dbUrl.auth.split(':');
 
-        dbOptions.name      = dbUrl.path.substring(1);
-        dbOptions.user      = authArr[0];
-        dbOptions.pass      = authArr[1];
-        dbOptions.host      = dbUrl.host;
-        dbOptions.dialect   = 'postgres';
-        dbOptions.protocol  = 'postgres';
+        dbOptions.name          = dbUrl.path.substring(1);
+        dbOptions.user          = authArr[0];
+        dbOptions.pass          = authArr[1];
+        dbOptions.host          = dbUrl.host;
+        dbOptions.dialect       = 'postgres';
+        dbOptions.protocol      = 'postgres';
+        dbOptions.disablePort   = true;
         break;
 }
 
@@ -61,10 +56,11 @@ GLOBAL.db = new Sequelize(dbOptions.name, dbOptions.user, dbOptions.pass, {
     port: dbOptions.port,
     dialect: dbOptions.dialect,
     protocol: dbOptions.protocol,
+    disablePort: dbOptions.disablePort,
     pool: {
         maxConnections: 5,
         maxIdleTime: 30
-    }, 
+    },
     define: {
         instanceMethods: {
             // toJson method

@@ -16,7 +16,7 @@
     "konphyg": "1.0.5",
     "memory-cache": "0.0.2",
     "pg": "0.6.18",
-    "sequelize": "https://github.com/danielschwartz/sequelize/tarball/master",
+    "sequelize": "https://github.com/danielschwartz/sequelize/tarball/heroku-constring-fix",
     "winston": "0.5.11"
   }
 }

@@ -6,15 +6,16 @@ module.exports.getPieceById = function(req, res, callback){
             params: 'id'
         });
     } else {
-        var pieceMemory = Memory.get('piece_' + pieceId);
+        // cacheKey
+        var cKey = 'piece_' + pieceId;
 
-        if(pieceMemory){
+        // try and get it from cache
+        if(pieceMemory = Memory.get(cKey)){
             callback(pieceMemory.mapAttributes());
         } else {
             Models.Piece.find(pieceId).success(function(piece){
-                var pieceJson = piece.mapAttributes();
-                Memory.put('piece_' + pieceJson.id, piece);
-                callback(pieceJson);
+                Memory.put(cKey, piece, 5 * 1000); //5 minutes
+                callback(piece.mapAttributes());
             }).error(function(error){
                 callback({})
             });
