@@ -10,6 +10,7 @@ GLOBAL.GlobalConfig = require('konphyg')('./configs')('site');
 GLOBAL.DataResponder = require(__root + '/libraries/DataResponder');
 GLOBAL.ErrorResponder = require(__root + '/libraries/ErrorResponder');
 GLOBAL.Memory = require('memory-cache');
+GLOBAL._ = require('underscore');
 
 // Init Global Logger
 var winston = require('winston');
@@ -87,11 +88,11 @@ require(__root + "/libraries/ModelAssociations");
 // Setup ServiceLoader
 GLOBAL.ServiceLoader = require(__root + '/libraries/ServiceLoader');
 
-// Configuration
 
+// Configuration
 app.configure(function(){
     app.set('views', __dirname + '/views');
-    app.set('view engine', 'hbs');
+    app.set('view engine', 'html');
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(app.router);
@@ -104,6 +105,16 @@ app.configure('development', function(){
 
 app.configure('production', function(){
     app.use(express.errorHandler());
+});
+
+// Add Underscore.js as view engine
+app.register('.html', {
+    compile: function(str, options){
+        var template = _.template(str);
+        return function(locals){
+            return template(locals);
+        };
+    }
 });
 
 // Routes
