@@ -12,6 +12,10 @@ GLOBAL.ErrorResponder = require(__root + '/libraries/ErrorResponder');
 GLOBAL.Memory = require('memory-cache');
 GLOBAL._ = require('underscore');
 
+// Mixin Underscore.String into Underscore
+_.str = require('underscore.string');
+_.mixin(_.str.exports());
+
 // Init Global Logger
 var winston = require('winston');
 GLOBAL.Logger = new (winston.Logger)({
