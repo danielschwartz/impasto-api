@@ -27,6 +27,7 @@ GLOBAL.Logger = new (winston.Logger)({
     ]
 });
 
+
 // Init Global DB
 var Sequelize = require('sequelize'),
     dbOptions = {};
