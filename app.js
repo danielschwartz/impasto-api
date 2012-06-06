@@ -85,7 +85,9 @@ GLOBAL.db = new Sequelize(dbOptions.name, dbOptions.user, dbOptions.pass, {
 var express = require('express'),
     assetManager = require('connect-assetmanager'),
     assets = require(__root + '/assets'),
-    aseetManagerMiddleware = assetManager(assets);
+    aseetManagerMiddleware = assetManager(assets),
+    passport = require('passport');
+
 
 var app = module.exports = express.createServer();
 
@@ -95,7 +97,7 @@ require(__root + "/libraries/ModelAssociations");
 // Setup ServiceLoader
 GLOBAL.ServiceLoader = require(__root + '/libraries/ServiceLoader');
 
-
+require(__root + '/libraries/PassportAuth')(passport);
 
 // Configuration
 app.configure(function(){
@@ -105,6 +107,8 @@ app.configure(function(){
     app.use(express.methodOverride());
     app.use(app.router);
     app.use(express.static(__dirname + '/public'));
+    app.use(passport.initialize());
+    app.use(passport.session());
     app.use(aseetManagerMiddleware)
 });
 
