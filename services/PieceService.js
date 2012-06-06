@@ -22,3 +22,18 @@ module.exports.getPieceById = function(req, res, callback){
         }
     }
 }
+
+module.exports.getAllPieces = function(req, res, callback){
+    Models.Piece.findAll().success(function(rawPieces){
+        var pieces = [];
+
+        _.each(rawPieces, function(piece){
+            pieces.push(piece.mapAttributes());
+        });
+
+
+        callback(pieces);
+    }).error(function(error){
+        callback({});
+    })
+}

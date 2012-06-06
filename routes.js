@@ -12,7 +12,7 @@ module.exports = function(app){
     });
 
     app.get('/admin/pieces', AdminPieceController.list)
-    app.get('/admin/pices/:id', AdminPieceController.show)
+    app.get('/admin/pieces/:id', AdminPieceController.show)
 
     // API Routes
     app.get('/api/:service/:method', API.get);
