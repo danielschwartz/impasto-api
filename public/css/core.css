@@ -1,0 +1,6 @@
+/* Bootstrap Overrides */
+
+.navbar-inner{
+    border-radius: 0px;
+    -webkit-border-radius: 0px;
+}

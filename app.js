@@ -27,7 +27,6 @@ GLOBAL.Logger = new (winston.Logger)({
     ]
 });
 
-
 // Init Global DB
 var Sequelize = require('sequelize'),
     dbOptions = {};
@@ -83,7 +82,10 @@ GLOBAL.db = new Sequelize(dbOptions.name, dbOptions.user, dbOptions.pass, {
     }
 });
 
-var express = require('express');
+var express = require('express'),
+    assetManager = require('connect-assetmanager'),
+    assets = require(__root + '/assets'),
+    aseetManagerMiddleware = assetManager(assets);
 
 var app = module.exports = express.createServer();
 
@@ -94,6 +96,7 @@ require(__root + "/libraries/ModelAssociations");
 GLOBAL.ServiceLoader = require(__root + '/libraries/ServiceLoader');
 
 
+
 // Configuration
 app.configure(function(){
     app.set('views', __dirname + '/views');
@@ -102,6 +105,7 @@ app.configure(function(){
     app.use(express.methodOverride());
     app.use(app.router);
     app.use(express.static(__dirname + '/public'));
+    app.use(aseetManagerMiddleware)
 });
 
 app.configure('development', function(){

@@ -4,12 +4,17 @@ var AdminPieceController = require(__root + '/controllers/AdminPieceController')
 
 
 module.exports = function(app){
-    app.get('/', function(req, res){
+    // Admin Routes
+    app.get('/admin', function(req, res){
         res.render('index', {
             title: 'Impasto API Homepage'
         });
     });
 
+    app.get('/admin/pieces', AdminPieceController.list)
+    app.get('/admin/pices/:id', AdminPieceController.show)
+
+    // API Routes
     app.get('/api/:service/:method', API.get);
 
     app.get('/dbseed', function(req, res){

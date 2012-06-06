@@ -1,11 +1,24 @@
-<html>
-<head>
-    <title>Impasto</title>
-    <link rel="stylesheet" type="text/css" href="/styles/style.css">
-</head>
-<body>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Impasto</title>
+        <link rel="stylesheet" type="text/css" href="/static/css/core.css">
+        <script type="text/javascript" src="/static/js/core.js"></script>
+    </head>
+    <body>
+        <div class="page-container">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="container">
+                        <a class="brand" href="/admin">Impasto Admin</a>
+                        <ul class="nav">
+                            <li><a href="/admin/pieces">Pieces</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%= body %>
 
-    <%= body %>
-
-</body>
+    </body>
 </html>
