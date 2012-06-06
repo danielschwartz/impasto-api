@@ -11,11 +11,12 @@ module.exports = function(app){
         });
     });
 
-    app.get('/admin/pieces', AdminPieceController.list)
-    app.get('/admin/pieces/:id', AdminPieceController.show)
+    app.get('/admin/pieces', AdminPieceController.list);
+    app.get('/admin/pieces/:id', AdminPieceController.show);
 
     // API Routes
     app.get('/api/:service/:method', API.get);
+    app.get('/api/:service/:method', API.post);
 
     app.get('/dbseed', function(req, res){
         var seeds = require(__root + "/libraries/seed");

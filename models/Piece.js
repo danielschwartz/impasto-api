@@ -12,25 +12,97 @@ module.exports = function(db, DataTypes){
             type: DataTypes.INTEGER,
             autoIncrement: true,
             unique: true,
-            primaryKey: true
+            primaryKey: true,
+            validate: {
+                notNull: true,
+                isInt: true
+            }
         },
-        title: DataTypes.TEXT,
-        medium: DataTypes.STRING,
-        style: DataTypes.STRING,
-        dimensions: DataTypes.STRING,
+        title: {
+            type: DataTypes.TEXT,
+            validate: {
+                isAlphanumeric: true,
+                notNull: true,
+                notEmpty: true,
+                len: [3, 255],
+            }
+        },
+        medium: {
+            type: DataTypes.STRING,
+            validate: {
+                notNull: true,
+                notEmpty: true
+            }
+        },
+        style: {
+            type: DataTypes.STRING,
+            validate: {
+                notNull: true,
+                notEmpty: true
+            }
+        },
+        height: {
+            type: DataTypes.FLOAT,
+            validate: {
+                isNumeric: true,
+                notNull: true
+            }
+        },
+        width: {
+            type: DataTypes.FLOAT,
+            validate: {
+                isNumeric: true,
+                notNull: true
+            }
+        },
+        depth: {
+            type: DataTypes.FLOAT,
+            validate: {
+                isNumeric: true,
+                notNull: true
+            }
+        },
         description: DataTypes.TEXT,
-        completionDate: DataTypes.DATE,
+        completionDate: {
+            type: DataTypes.DATE,
+            validate: {
+                isDate: true
+            }
+        },
         shippingWindow: DataTypes.TEXT,
-        weight: DataTypes.TEXT,
-        quantity: DataTypes.INTEGER,
-        quantitySold: DataTypes.INTEGER,
+        weight: {
+            type: DataTypes.FLOAT,
+            validate: {
+                isNumeric: true,
+                notNull: true
+            }
+        },
+        quantity: {
+            type: DataTypes.INTEGER,
+            validate: {
+                isNumeric: true,
+                notNull: true
+            }
+        },
+        quantitySold: {
+            type: DataTypes.INTEGER,
+            validate: {
+                isNumeric: true,
+                notNull: true
+            }
+        },
         image: DataTypes.TEXT,
         thumbnail: DataTypes.TEXT,
         editorialReview: DataTypes.TEXT,
-        price: DataTypes.FLOAT,
+        price: {
+            type: DataTypes.FLOAT,
+            validate: {
+                isNumeric: true,
+                notNull: true
+            }
+        },
         published: DataTypes.BOOLEAN,
-        soldOut: DataTypes.BOOLEAN
     }, {
-        // options
+        paranoid: true
     })
 }

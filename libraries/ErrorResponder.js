@@ -35,10 +35,13 @@ function errorCodeToMessage(code, options){
             message = 'Missing required parameter/s: ' + options.params;
             break;
         case 506:
-            message = '';
+            message = 'Expected Stringified JSON.';
             break;
         case 507:
-            message = '';
+            message = 'Model Validation Failed. Errors: ';
+            _.each(options.errors, function(value, key){
+                message += key + ': ' + value[0].split(':')[0] + ', ';
+            });
             break;
         default:
             message = 'An internal error has occured';
