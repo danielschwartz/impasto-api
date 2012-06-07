@@ -86,8 +86,52 @@ var express = require('express'),
     assetManager = require('connect-assetmanager'),
     assets = require(__root + '/assets'),
     aseetManagerMiddleware = assetManager(assets),
-    passport = require('passport');
+    LocalStrategy = require('passport-local').Strategy,
+    bcrypt = require('bcrypt');
 
+GLOBAL.passport = require('passport');
+
+passport.use(new LocalStrategy(
+    function(email, password, done){
+        Models.User.find({
+            where: {emailAddress: email}
+        }).success(function(user){
+            if(!user){
+                return done(null, false, {message: 'Unknown User.'});
+            }
+
+            if(!bcrypt.compareSync(password, user.password)){
+                return done(null, false, {message: 'Incorrect Password.'});
+            }
+
+            return done(null, user);
+        }).error(function(error){
+            return done(error);
+        });
+    }
+));
+
+passport.serializeUser(function(user, done){
+    done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done){
+    Models.User.find({
+        where: {id: id}
+    }).success(function(user){
+        if(!user){
+            return done(null, false, {message: 'Unknown User.'});
+        }
+
+        if(!bcrypt.compareSync(password, user.password)){
+            return done(null, false, {message: 'Incorrect Password.'});
+        }
+
+        return done(null, user);
+    }).error(function(error){
+        return done(error);
+    });
+});
 
 var app = module.exports = express.createServer();
 
@@ -97,18 +141,25 @@ require(__root + "/libraries/ModelAssociations");
 // Setup ServiceLoader
 GLOBAL.ServiceLoader = require(__root + '/libraries/ServiceLoader');
 
-require(__root + '/libraries/PassportAuth')(passport);
-
 // Configuration
 app.configure(function(){
     app.set('views', __dirname + '/views');
     app.set('view engine', 'html');
+    app.use(function(req, res, next){
+        req.cookies = {
+            'connect.sid': req.headers.sessionkey
+        }
+        next();
+    });
+
+    app.use(express.cookieParser());
     app.use(express.bodyParser());
     app.use(express.methodOverride());
-    app.use(app.router);
     app.use(express.static(__dirname + '/public'));
+    app.use(express.session({ secret: 'keyboard cat' }));
     app.use(passport.initialize());
     app.use(passport.session());
+    app.use(app.router);
     app.use(aseetManagerMiddleware)
 });
 

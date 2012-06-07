@@ -35,5 +35,18 @@ module.exports = function(app){
         });
     });
 
+    app.post('/login', function(req, res, next){
+        passport.authenticate('local', function(err, user, info){
+            if(err) return ErrorResponder(res);
+            if(!user) return ErrorResponder(res);
+            req.logIn(user, function(err){
+                if(err) return ErrorResponder(res);
+                return DataResponder(res, {
+                    sessionId: req.sessionID
+                });
+            });
+        })(req, res, next);
+    });
+
     app.get('/admin/pieces/:id', AdminPieceController);
 }
