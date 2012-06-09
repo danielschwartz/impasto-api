@@ -50,9 +50,9 @@ switch(NodeEnv){
         dbOptions.user          = authArr[0];
         dbOptions.pass          = authArr[1];
         dbOptions.host          = dbUrl.host;
+        dbOptions.port          = null;
         dbOptions.dialect       = 'postgres';
         dbOptions.protocol      = 'postgres';
-        dbOptions.disablePort   = true;
         break;
 }
 
@@ -61,7 +61,6 @@ GLOBAL.db = new Sequelize(dbOptions.name, dbOptions.user, dbOptions.pass, {
     port: dbOptions.port,
     dialect: dbOptions.dialect,
     protocol: dbOptions.protocol,
-    disablePort: dbOptions.disablePort,
     pool: {
         maxConnections: 5,
         maxIdleTime: 30
