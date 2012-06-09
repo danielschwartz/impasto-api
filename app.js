@@ -43,7 +43,7 @@ switch(NodeEnv){
         break;
     case 'production':
         var url     = require('url'),
-            dbUrl   = url.parse(process.env.DATABASE_URL),
+            dbUrl   = url.parse(process.env.HEROKU_POSTGRESQL_COPPER_URL),
             authArr = dbUrl.auth.split(':');
 
         dbOptions.name          = dbUrl.path.substring(1);
