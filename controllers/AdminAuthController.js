@@ -36,5 +36,5 @@ module.exports.post = function(req, res, next){
                 });
             });
         }
-    })(req, res);
+    })(req, res, next);
 }
