@@ -1,6 +1,7 @@
 // Main Routes Files
-var API = require(__root + '/controllers/API');
-var AdminPieceController = require(__root + '/controllers/AdminPieceController');
+var API = require(__root + '/controllers/API')
+    AdminPieceController = require(__root + '/controllers/AdminPieceController'),
+    AdminAuthController = require(__root + '/controllers/AdminAuthController');
 
 
 module.exports = function(app){
@@ -33,6 +34,13 @@ module.exports = function(app){
             console.log(error);
             res.json({success: false, error: error});
         });
+    });
+
+    app.get('/admin/login', AdminAuthController.get);
+    app.post('/auth/login', AdminAuthController.post);
+    app.get('/admin/logout', function(req, res){
+        req.logout();
+        res.redirect('/admin');
     });
 
     app.post('/login', function(req, res, next){

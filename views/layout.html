@@ -5,20 +5,35 @@
         <link rel="stylesheet" type="text/css" href="/static/css/core.css">
         <script type="text/javascript" src="/static/js/core.js"></script>
     </head>
-    <body>
+    <body id="<% if(page.bodyId){ print(page.bodyId) } %>">
         <div class="navbar">
             <div class="navbar-inner">
                 <div class="container">
                     <a class="brand" href="/admin">Impasto Admin</a>
                     <ul class="nav">
                         <li><a href="/admin/pieces">Pieces</a></li>
+                        <li><a href="/admin/login">Login</a></li>
+                        <li><a href="/admin/logout">Logout</a></li>
+                        <li><a>
+                            <% 
+                                if(page.isAuthenticated){
+                                    print('Logged In!')
+                                } else {
+                                    print('Logged Out!');
+                                }
+
+                            %>
+
+                            <% console.log(page.isAuthenticated) %>
+
+                        </a></li>
                     </ul>
                 </div>
             </div>
         </div>
 
         
-        <%= body %>
+        <%= page.body %>
 
     </body>
 </html>

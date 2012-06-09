@@ -14,8 +14,10 @@ module.exports = {
         route: new RegExp('/static/js/core.js'),
         path: './public/js/',
         dataType: 'javascript',
+        debug: true,
         files: [
-            'lib/mootools_core_more_bootstrap.js'
+            'lib/mootools_core_more_bootstrap.js',
+            'core.js'
         ]
     }
 }

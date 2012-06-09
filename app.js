@@ -91,7 +91,10 @@ var express = require('express'),
 
 GLOBAL.passport = require('passport');
 
-passport.use(new LocalStrategy(
+passport.use(new LocalStrategy({
+        usernameField: 'email',
+        passwordField: 'password'
+    },
     function(email, password, done){
         Models.User.find({
             where: {emailAddress: email}
@@ -100,7 +103,7 @@ passport.use(new LocalStrategy(
                 return done(null, false, {message: 'Unknown User.'});
             }
 
-            if(!bcrypt.compareSync(password, user.password)){
+            if(password && !bcrypt.compareSync(password, user.password)){
                 return done(null, false, {message: 'Incorrect Password.'});
             }
 
@@ -123,10 +126,6 @@ passport.deserializeUser(function(id, done){
             return done(null, false, {message: 'Unknown User.'});
         }
 
-        if(!bcrypt.compareSync(password, user.password)){
-            return done(null, false, {message: 'Incorrect Password.'});
-        }
-
         return done(null, user);
     }).error(function(error){
         return done(error);
@@ -146,9 +145,9 @@ app.configure(function(){
     app.set('views', __dirname + '/views');
     app.set('view engine', 'html');
     app.use(function(req, res, next){
-        req.cookies = {
-            'connect.sid': req.headers.sessionkey
-        }
+        // req.cookies = {
+        //     'connect.sid': req.headers.sessionkey
+        // }
         next();
     });
 
@@ -156,7 +155,10 @@ app.configure(function(){
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(express.static(__dirname + '/public'));
-    app.use(express.session({ secret: 'keyboard cat' }));
+    app.use(express.session({
+        key: 'i_sess',
+        secret: '$2a$10$e48vUJ9hGgsHUj.j2S9Yru'
+    }));
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(app.router);
@@ -171,12 +173,17 @@ app.configure('production', function(){
     app.use(express.errorHandler());
 });
 
+app.dynamicHelpers({
+    isAuthenticated: function(req, res){
+        return req.isAuthenticated();
+    }
+})
+
 // Add Underscore.js as view engine
 app.register('.html', {
     compile: function(str, options){
-        var template = _.template(str);
         return function(locals){
-            return template(locals);
+            return _.template(str, locals, {variable: 'page'});
         };
     }
 });

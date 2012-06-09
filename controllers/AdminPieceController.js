@@ -1,4 +1,9 @@
 module.exports.list = function (req, res){
+    if(!req.isAuthenticated()){
+        res.redirect('/admin/login');
+    }
+
+
     var pieceService = ServiceLoader.get('PieceService');
 
     pieceService.getAllPieces(req, res, function(pieces){
@@ -9,6 +14,9 @@ module.exports.list = function (req, res){
 }
 
 module.exports.show = function(req, res){
+    if(!req.isAuthenticated()){
+        res.redirect('/admin/login');
+    }
     var pieceService = ServiceLoader.get('PieceService');
     req.query.id = req.params.id;
 

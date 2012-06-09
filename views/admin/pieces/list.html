@@ -3,7 +3,7 @@
     <h1>All Pieces</h1>
 
     <ul>
-        <% _.each(pieces, function(piece){ %>
+        <% _.each(page.pieces, function(piece){ %>
             <li><a href="/admin/pieces/<%= piece.id %>"><%= piece.id %>: <%= piece.title %></a></li>
             <br/>
             <br/>
