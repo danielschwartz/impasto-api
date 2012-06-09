@@ -8,7 +8,7 @@ module.exports.get = function(req, res){
     }
 }
 
-module.exports.post = function(req, res){
+module.exports.post = function(req, res, next){
     passport.authenticate('local', function(err, user, info){
         if(err) return ErrorResponder(res);
         if(!user){
@@ -26,7 +26,7 @@ module.exports.post = function(req, res){
                             sessionId: req.sessionID
                         });
                     });
-                })(req, res);
+                })(req, res, next);
             });
         } else {
             req.logIn(user, function(err){
