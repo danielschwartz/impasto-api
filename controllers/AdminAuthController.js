@@ -14,14 +14,14 @@ module.exports.post = function(req, res, next){
         if(!user){
             var userService = ServiceLoader.get('UserService');
 
-            userService.createUser(req, res, function(user){
+            userService.createUser(req, res, function(err, user){
+                if(err) return ErrorResponder(res);
+
                 passport.authenticate('local', function(err, user, info){
                     if(err) return ErrorResponder(res);
-                    if(!user){
-                        return ErrorResponder(res);
-                    }
+                    if(!user) return ErrorResponder(res);
                     req.logIn(user, function(err){
-                        if(err) ErrorResponder(res);
+                        if(err) return ErrorResponder(res);
                         return DataResponder(res, {
                             sessionId: req.sessionID
                         });
