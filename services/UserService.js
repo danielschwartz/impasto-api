@@ -27,7 +27,7 @@ module.exports.createUser = function(req, res, callback){
             emailAddress: email,
             password: hashedPassword
         }).success(function(user){
-            callback(user.mapAttributes());
+            callback(null, user.mapAttributes());
         }).error(function(error){
             callback(true, null);
         });
@@ -47,7 +47,7 @@ module.exports.getUserByEmail = function(req, res, callback){
     Models.User.find({
         where: {email: email}
     }).success(function(user){
-        callback(user.mapAttributes());
+        callback(null, user.mapAttributes());
     }).error(function(error){
         callback(true, null);
     });

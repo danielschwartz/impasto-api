@@ -11,7 +11,7 @@ module.exports.getAllPieces = function(req, res, callback){
         });
 
 
-        callback(pieces);
+        callback(null, pieces);
     }).error(function(error){
         callback(true, null);
     })
@@ -35,7 +35,7 @@ module.exports.getPieceById = function(req, res, callback){
     // try and get it from cache
     var pieceMemory = Memory.get(cKey);
     if(pieceMemory){
-        return callback(pieceMemory.mapAttributes());
+        return callback(null, pieceMemory.mapAttributes());
     }
 
     Models.Piece.find(pieceId).success(function(piece){
@@ -44,7 +44,7 @@ module.exports.getPieceById = function(req, res, callback){
         }
 
         Memory.put(cKey, piece, 5 * 1000); //5 minutes
-        callback(piece.mapAttributes());
+        callback(null, piece.mapAttributes());
     }).error(function(error){
         callback(true, null);
     });
@@ -92,7 +92,7 @@ module.exports.updatePiece = function(req, res, callback){
         }
 
         rawPiece.save().success(function(rawPiece){
-            callback(rawPiece.mapAttributes());
+            callback(null, rawPiece.mapAttributes());
         }).error(function(){
             callback(true, null);
         });        
