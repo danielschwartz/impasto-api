@@ -1,13 +1,19 @@
 module.exports.createUser = function(req, res, callback){
     if(!req.body.email){
-        ErrorResponder(res, 505, {
-            params: 'email'
+        return callback({
+            code: 505,
+            options: {
+                params: 'email'
+            }
         });
     }
 
     if(!req.body.password){
-        ErrorResponder(res, 505, {
-            params: 'password'
+        return callback({
+            code: 505,
+            options: {
+                params: 'password'
+            }
         });
     }
 
@@ -23,15 +29,18 @@ module.exports.createUser = function(req, res, callback){
         }).success(function(user){
             callback(user.mapAttributes());
         }).error(function(error){
-            ErrorResponder(error);
+            callback(true, null);
         });
 }
 
 module.exports.getUserByEmail = function(req, res, callback){
     var email = req.query.email;
     if(!email){
-        ErrorResponder(res, 505, {
-            params: 'email'
+        return callback({
+            code: 505,
+            options: {
+                params: 'email'
+            }
         });
     }
 
@@ -40,6 +49,6 @@ module.exports.getUserByEmail = function(req, res, callback){
     }).success(function(user){
         callback(user.mapAttributes());
     }).error(function(error){
-        ErrorResponder(res);
+        callback(true, null);
     });
 }
