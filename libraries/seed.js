@@ -13,7 +13,6 @@ module.exports = {
                     title: Faker.Lorem.sentences(),
                     medium: Faker.Lorem.sentences(),
                     style: Faker.Lorem.sentences(),
-                    dimensions: Faker.Lorem.sentences(),
                     description: Faker.Lorem.sentences()
                 }).success(function(piece){
                     user.addPiece(piece);
