@@ -20,7 +20,6 @@ module.exports.show = function(req, res){
         req.query.id = req.params.id;
 
         pieceService.getPieceById(req, res, function(err, piece){
-
             res.render('admin/pieces/show', {
                 piece: piece
             });
