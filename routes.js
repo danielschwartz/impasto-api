@@ -57,7 +57,7 @@ module.exports = function(app){
     });
 
     app.get('/mu-bf7317e0-4ab0d534-52c40d5b-bf8a7b7a', function(req, res){
-        res.send(42);
+        res.send('42');
     });
 
     app.get('/admin/pieces/:id', AdminPieceController);
