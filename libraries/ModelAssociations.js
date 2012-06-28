@@ -1,56 +1,56 @@
-// Get Models
+// Get Impasto.Models
 module.exports = (function(){
-    // Create GLOBAL Models object
-    GLOBAL.Models = {};
+    // Create GLOBAL Impasto.Models object
+    Impasto.Models = {};
 
-    Models.Address      = GLOBAL.db.import(__root + "/models/Address");
-    Models.Collection   = GLOBAL.db.import(__root + "/models/Collection");
-    Models.CreditCard   = GLOBAL.db.import(__root + "/models/CreditCard");
-    Models.List         = GLOBAL.db.import(__root + "/models/List");
-    Models.ListItem     = GLOBAL.db.import(__root + "/models/ListItem");
-    Models.Order        = GLOBAL.db.import(__root + "/models/Order");
-    Models.Piece        = GLOBAL.db.import(__root + "/models/Piece");
-    Models.Rating       = GLOBAL.db.import(__root + "/models/Rating");
-    Models.User         = GLOBAL.db.import(__root + "/models/User");
+    Impasto.Models.Address      = Impasto.db.import(__root + "/models/Address");
+    Impasto.Models.Collection   = Impasto.db.import(__root + "/models/Collection");
+    Impasto.Models.CreditCard   = Impasto.db.import(__root + "/models/CreditCard");
+    Impasto.Models.List         = Impasto.db.import(__root + "/models/List");
+    Impasto.Models.ListItem     = Impasto.db.import(__root + "/models/ListItem");
+    Impasto.Models.Order        = Impasto.db.import(__root + "/models/Order");
+    Impasto.Models.Piece        = Impasto.db.import(__root + "/models/Piece");
+    Impasto.Models.Rating       = Impasto.db.import(__root + "/models/Rating");
+    Impasto.Models.User         = Impasto.db.import(__root + "/models/User");
 
 
     // Address Associations
-    Models.Address.hasMany(Models.CreditCard);
-    Models.Address.hasOne(Models.User);
-    Models.Address.belongsTo(Models.User);
+    Impasto.Models.Address.hasMany(Impasto.Models.CreditCard);
+    Impasto.Models.Address.hasOne(Impasto.Models.User);
+    Impasto.Models.Address.belongsTo(Impasto.Models.User);
 
     // Collection Associations
-    Models.Collection.hasMany(Models.Piece);
+    Impasto.Models.Collection.hasMany(Impasto.Models.Piece);
 
     // Credit Card Associations
-    Models.CreditCard.hasOne(Models.Address);
-    Models.CreditCard.hasOne(Models.User);
-    Models.CreditCard.belongsTo(Models.User);
-    Models.CreditCard.hasMany(Models.Order);
+    Impasto.Models.CreditCard.hasOne(Impasto.Models.Address);
+    Impasto.Models.CreditCard.hasOne(Impasto.Models.User);
+    Impasto.Models.CreditCard.belongsTo(Impasto.Models.User);
+    Impasto.Models.CreditCard.hasMany(Impasto.Models.Order);
 
     // Order Associations
-    Models.Order.hasOne(Models.CreditCard);
-    Models.Order.hasOne(Models.User);
-    Models.Order.belongsTo(Models.User);
-    Models.Order.hasOne(Models.Piece);
+    Impasto.Models.Order.hasOne(Impasto.Models.CreditCard);
+    Impasto.Models.Order.hasOne(Impasto.Models.User);
+    Impasto.Models.Order.belongsTo(Impasto.Models.User);
+    Impasto.Models.Order.hasOne(Impasto.Models.Piece);
 
     // Piece Associations
-    Models.Piece.hasOne(Models.User);
-    Models.Piece.belongsTo(Models.User);
-    Models.Piece.hasOne(Models.Order);
-    Models.Piece.belongsTo(Models.Order);
-    Models.Piece.hasMany(Models.Collection);
-    Models.Piece.hasMany(Models.Rating);
+    Impasto.Models.Piece.hasOne(Impasto.Models.User);
+    Impasto.Models.Piece.belongsTo(Impasto.Models.User);
+    Impasto.Models.Piece.hasOne(Impasto.Models.Order);
+    Impasto.Models.Piece.belongsTo(Impasto.Models.Order);
+    Impasto.Models.Piece.hasMany(Impasto.Models.Collection);
+    Impasto.Models.Piece.hasMany(Impasto.Models.Rating);
 
     // Rating Associations
-    Models.Rating.hasOne(Models.User);
-    Models.Rating.belongsTo(Models.User);
-    Models.Rating.hasOne(Models.Piece);
+    Impasto.Models.Rating.hasOne(Impasto.Models.User);
+    Impasto.Models.Rating.belongsTo(Impasto.Models.User);
+    Impasto.Models.Rating.hasOne(Impasto.Models.Piece);
 
     // User Associations
-    Models.User.hasMany(Models.Piece);
-    Models.User.hasMany(Models.Address);
-    Models.User.hasMany(Models.Order);
-    Models.User.hasMany(Models.CreditCard);
-    Models.User.hasMany(Models.Rating);
+    Impasto.Models.User.hasMany(Impasto.Models.Piece);
+    Impasto.Models.User.hasMany(Impasto.Models.Address);
+    Impasto.Models.User.hasMany(Impasto.Models.Order);
+    Impasto.Models.User.hasMany(Impasto.Models.CreditCard);
+    Impasto.Models.User.hasMany(Impasto.Models.Rating);
 })();

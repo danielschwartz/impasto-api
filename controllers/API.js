@@ -5,15 +5,15 @@ module.exports.get = module.exports.post = function(req, res){
         if(service[req.params.method]){
             service[req.params.method](req, res, function(err, response){
                 if(err){
-                    ErrorResponder(res, err.code, err.options);
+                    Impasto.ErrorResponder(res, err.code, err.options);
                 } else {
-                    DataResponder(res, response);
+                    Impasto.DataResponder(res, response);
                 }
             });
         } else {
-            ErrorResponder(res, 504);
+            Impasto.ErrorResponder(res, 504);
         }
     } else {
-        ErrorResponder(res, 501);
+        Impasto.ErrorResponder(res, 501);
     }
 }

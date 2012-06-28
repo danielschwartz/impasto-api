@@ -22,9 +22,9 @@ module.exports = function(app){
     app.get('/dbseed', function(req, res){
         var seeds = require(__root + "/libraries/seed");
 
-        GLOBAL.db.drop();
+        Impasto.db.drop();
 
-        GLOBAL.db.sync({force: true}).on('success', function() {
+        Impasto.db.sync({force: true}).on('success', function() {
             console.log('MySQL schema created');
             console.log('Creating Seed Data');
             seeds.initUserPieces();
@@ -45,11 +45,11 @@ module.exports = function(app){
 
     app.post('/login', function(req, res, next){
         passport.authenticate('local', function(err, user, info){
-            if(err) return ErrorResponder(res);
-            if(!user) return ErrorResponder(res);
+            if(err) return Impasto.ErrorResponder(res);
+            if(!user) return Impasto.ErrorResponder(res);
             req.logIn(user, function(err){
-                if(err) return ErrorResponder(res);
-                return DataResponder(res, {
+                if(err) return Impasto.ErrorResponder(res);
+                return Impasto.DataResponder(res, {
                     sessionId: req.sessionID
                 });
             });

@@ -23,7 +23,7 @@ module.exports.createUser = function(req, res, callback){
         salt = bcrypt.genSaltSync(10),
         hashedPassword = bcrypt.hashSync(rawPassword, salt);
 
-        Models.User.create({
+        Impasto.Models.User.create({
             emailAddress: email,
             password: hashedPassword
         }).success(function(user){
@@ -44,7 +44,7 @@ module.exports.getUserByEmail = function(req, res, callback){
         });
     }
 
-    Models.User.find({
+    Impasto.Models.User.find({
         where: {email: email}
     }).success(function(user){
         callback(null, user.mapAttributes());

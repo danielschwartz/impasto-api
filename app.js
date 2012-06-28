@@ -1,24 +1,23 @@
-
-/**
- * Module dependencies.
- */
-
 // Setup Global Vars
 GLOBAL.__root = __dirname;
 GLOBAL.NodeEnv = process.env.NODE_ENV || 'development';
-GLOBAL.GlobalConfig = require('konphyg')('./configs')('site');
-GLOBAL.DataResponder = require(__root + '/libraries/DataResponder');
-GLOBAL.ErrorResponder = require(__root + '/libraries/ErrorResponder');
-GLOBAL.Memory = require('memory-cache');
 GLOBAL._ = require('underscore');
 
 // Mixin Underscore.String into Underscore
 _.str = require('underscore.string');
 _.mixin(_.str.exports());
 
+// Global Impasto Object + Modules
+GLOBAL.Impasto = {
+    Config: require('konphyg')('./configs')('site'),
+    DataResponder: require(__root + '/libraries/DataResponder'),
+    ErrorResponder: require(__root + '/libraries/ErrorResponder'),
+    Memory: require('memory-cache')
+}
+
 // Init Global Logger
 var winston = require('winston');
-GLOBAL.Logger = new (winston.Logger)({
+Impasto.Logger = new (winston.Logger)({
     transports: [
         new (winston.transports.Console)({
             colorize: true,
@@ -33,12 +32,12 @@ var Sequelize = require('sequelize'),
 
 switch(NodeEnv){
     case 'development':
-        dbOptions.name          = GlobalConfig.db.name;
-        dbOptions.user          = GlobalConfig.db.user;
-        dbOptions.pass          = GlobalConfig.db.pass;
-        dbOptions.host          = GlobalConfig.db.host;
-        dbOptions.port          = GlobalConfig.db.port;
-        dbOptions.dialect       = GlobalConfig.db.dialect;
+        dbOptions.name          = Impasto.Config.db.name;
+        dbOptions.user          = Impasto.Config.db.user;
+        dbOptions.pass          = Impasto.Config.db.pass;
+        dbOptions.host          = Impasto.Config.db.host;
+        dbOptions.port          = Impasto.Config.db.port;
+        dbOptions.dialect       = Impasto.Config.db.dialect;
         dbOptions.disablePort   = false;
         break;
     case 'production':
@@ -56,7 +55,7 @@ switch(NodeEnv){
         break;
 }
 
-GLOBAL.db = new Sequelize(dbOptions.name, dbOptions.user, dbOptions.pass, {
+Impasto.db = new Sequelize(dbOptions.name, dbOptions.user, dbOptions.pass, {
     host: dbOptions.host,
     port: dbOptions.port,
     dialect: dbOptions.dialect,
@@ -95,7 +94,7 @@ passport.use(new LocalStrategy({
         passwordField: 'password'
     },
     function(email, password, done){
-        Models.User.find({
+        Impasto.Models.User.find({
             where: {emailAddress: email}
         }).success(function(user){
             if(!user){
@@ -118,7 +117,7 @@ passport.serializeUser(function(user, done){
 });
 
 passport.deserializeUser(function(id, done){
-    Models.User.find({
+    Impasto.Models.User.find({
         where: {id: id}
     }).success(function(user){
         if(!user){

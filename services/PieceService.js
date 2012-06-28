@@ -1,5 +1,5 @@
 module.exports.getAllPieces = function(req, res, callback){
-    Models.Piece.findAll().success(function(rawPieces){
+    Impasto.Models.Piece.findAll().success(function(rawPieces){
         if(!rawPieces){
             return callback(true, null);
         }
@@ -33,17 +33,17 @@ module.exports.getPieceById = function(req, res, callback){
     var cKey = 'piece_' + pieceId;
 
     // try and get it from cache
-    var pieceMemory = Memory.get(cKey);
+    var pieceMemory = Impasto.Memory.get(cKey);
     if(pieceMemory){
         return callback(null, pieceMemory.mapAttributes());
     }
 
-    Models.Piece.find(pieceId).success(function(piece){
+    Impasto.Models.Piece.find(pieceId).success(function(piece){
         if(!piece){
             return callback(true, null);
         }
 
-        Memory.put(cKey, piece, 5 * 1000); //5 minutes
+        Impasto.Memory.put(cKey, piece, 5 * 1000); //5 minutes
         callback(null, piece.mapAttributes());
     }).error(function(error){
         callback(true, null);
@@ -71,7 +71,7 @@ module.exports.updatePiece = function(req, res, callback){
         });
     }
 
-    Models.Piece.find(piece.id).success(function(rawPiece){
+    Impasto.Models.Piece.find(piece.id).success(function(rawPiece){
         if(!rawPiece){
             return callback(true, null);
         }
