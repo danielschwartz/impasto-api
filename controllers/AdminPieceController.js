@@ -26,3 +26,17 @@ module.exports.show = function(req, res){
         });
     }
 }
+
+module.exports.new = function(req, res){
+    res.render('admin/pieces/new');
+}
+
+module.exports.create = function(req, res){
+    var fs = require('fs');
+
+    cloudinary.uploader.upload(req.files.upload.path, function(result){
+        fs.unlink(req.files.upload.path, function(err){
+            res.json(result);
+        });
+    });
+}
